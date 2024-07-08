@@ -59,17 +59,12 @@
 		measureClickDuration = setInterval(() => {clickDuration++}, 10);
 		clearInterval(measureNotClickDuration);
 
-		if (notClickDuration >= 14) {
-
-			if (notClickDuration >= 60) {
-			contents.push(" ");
-			}
-
+		if (notClickDuration >= 15) {
 			translate();
-
 			inputs = [];
 			contents = contents;
 		}
+		document.getElementById("button").style.backgroundColor = "grey";
 	}
 
 	/**
@@ -85,7 +80,33 @@
 		if (11 <= clickDuration) {inputs.push(1)}
 
 		inputs = inputs;
+
+		document.getElementById("button").style.backgroundColor = "white";
 	}
+
+	setInterval(() => {
+		if (equals(inputs,[]) == false && notClickDuration >= 60) {
+				translate();
+				inputs = [];
+				contents = contents;
+				contents.push(" ");
+				clearInterval(measureNotClickDuration);
+				notClickDuration = 0;
+			}
+	}, 10)
+
+	//키보드 입력 감지
+
+	window.addEventListener("keydown", (e) => {
+		if (e.key == " ") {
+			downBtn();
+		}
+	})
+	window.addEventListener("keyup", (e) => {
+		if (e.key == " ") {
+			upBtn();
+		}
+	})
 
 </script>
 
@@ -94,18 +115,23 @@
 	<head>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
 	</head>
 
 	<h1 class="title">Morse Practice</h1>
 
-	<div on:mousedown={downBtn} on:mouseup={upBtn} class="button">
+	<div on:mousedown={downBtn} on:mouseup={upBtn} class="button" id="button">
 		<h1 class="clickText">Click!</h1>
 	</div>
 	<div class="letters">
+		<div class="textTextBox">
+			<p class="textText">TEXT</p>
+		</div>
 		{#each contents as letter}
 			{#if letter != " "}
-				<p class="letter">{letter}</p>
+				<div class="letter">
+					<p>{letter}</p>
+				</div>
 			{/if}
 			{#if letter == " "}
 			<div class= blank></div>
@@ -131,36 +157,58 @@
 	.title{
 		font-size: 50px;
 		font-family: "M PLUS Rounded 1c", sans-serif;
-  		font-weight: 400;
+  		font-weight: 800;
   		font-style: normal;
 	}
 	.debug{
 		background-color: aqua;
+		display: none;
 	}
 	.letter{
 		font-size: 30px;
+		height: 30px;
+		transform: translate(0,-100%);
+		font-family: "M PLUS Rounded 1c", sans-serif;
+  		font-weight: 400;
+  		font-style: normal;
 	}
 	.letters{
 		display: flex;
+		flex-wrap: wrap;
+		width: 100% - 10px;
+		background-color: rgb(165, 255, 171);
+		padding-top: 30px;
+		padding-bottom: 20px;
+		padding-left: 10px;
+		margin-top: 50px;
+		margin-left: 50px;
+		margin-right: 50px;
+		min-height: 150px;
+		border: solid;
+		border-radius: 3px;
+		border-color: black;
+		position: relative;
 	}
 	.blank{
 		width: 10px;
+		height: 3px;
 	}
 	.button {
 		position: relative;
-		background-image: linear-gradient(to right bottom, rgb(255, 145, 255), rgb(106, 186, 255));
+		background-image: linear-gradient(to right bottom, rgb(255, 145, 255, 80%), rgb(106, 186, 255, 80%));
 		width: 300px;
 		height: 60px;
 		text-align: center;
 		color: white;
 		left: 50%;
 		transform: translate(-50%,0);
-		border-radius: 8px;
+		border-radius: 3px;
 		border: solid;
-		border-color: grey;
+		border-color: black;
 		margin-top: 50px;
 		user-select: none;
 		cursor: pointer;
+		background-color: white;
 	}
 	.clickText{
 		position: relative;
@@ -168,7 +216,26 @@
 		transform: translate(0,-100%);
 		font-size: 35px;
 		font-family: "M PLUS Rounded 1c", sans-serif;
-  		font-weight: 400;
+  		font-weight: 600;
+  		font-style: normal;
+	}
+	.textTextBox{
+		position: absolute;
+		bottom: 175px;
+		background-color: rgb(163, 255, 255);
+		height: 50px;
+		width: 150px;
+		border: solid;
+		border-radius: 3px;
+		border-color: black;
+	}
+	.textText{
+		position: relative;
+		top: 30%;
+		transform: translate(0,-100%);
+		font-size: 40px;
+		font-family: "M PLUS Rounded 1c", sans-serif;
+  		font-weight: 600;
   		font-style: normal;
 	}
 
