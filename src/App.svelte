@@ -121,7 +121,7 @@
 
 	<h1 class="title">Morse Practice</h1>
 
-	<div on:mousedown={downBtn} on:mouseup={upBtn} on:touchstart={downBtn} on:touchend={upBtn} class="button" id="button">
+	<div on:mousedown={downBtn} on:mouseup={upBtn} on:touchend={upBtn} class="button" id="button">
 		<h1 class="clickText">Click!</h1>
 	</div>
 	<div class="letters">
@@ -163,7 +163,7 @@
 	}
 	.debug{
 		background-color: aqua;
-		display: solid;
+		display: none;
 	}
 	.letter{
 		font-size: 30px;
