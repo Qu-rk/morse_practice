@@ -6,7 +6,8 @@
 	let measureNotClickDuration;
 	let inputs = [];
 	let contents = [];
-	let language = "English"
+	let language = "English";
+	let correction = 1;
 
 	/**
 	 * object나 array의 동등비교 해주는 함수
@@ -59,7 +60,7 @@
 		measureClickDuration = setInterval(() => {clickDuration++}, 10);
 		clearInterval(measureNotClickDuration);
 
-		if (notClickDuration >= 15) {
+		if (notClickDuration >= 15 * correction) {
 			translate();
 			inputs = [];
 			contents = contents;
@@ -75,9 +76,9 @@
 		clearInterval(measureClickDuration);
 		measureNotClickDuration = setInterval(() => {notClickDuration++}, 10);
 
-		if (clickDuration <= 10) {inputs.push(0)}
+		if (clickDuration <= 10 * correction) {inputs.push(0)}
 
-		if (11 <= clickDuration) {inputs.push(1)}
+		if (11 * correction <= clickDuration) {inputs.push(1)}
 
 		inputs = inputs;
 
@@ -85,7 +86,7 @@
 	}
 
 	setInterval(() => {
-		if (equals(inputs,[]) == false && notClickDuration >= 60) {
+		if (equals(inputs,[]) == false && notClickDuration >= 60 * correction) {
 				translate();
 				inputs = [];
 				contents = contents;
@@ -120,7 +121,7 @@
 
 	<h1 class="title">Morse Practice</h1>
 
-	<div on:mousedown={downBtn} on:mouseup={upBtn} class="button" id="button">
+	<div on:mousedown={downBtn} on:mouseup={upBtn} on:touchstart={downBtn} on:touchend={upBtn} class="button" id="button">
 		<h1 class="clickText">Click!</h1>
 	</div>
 	<div class="letters">
@@ -162,7 +163,7 @@
 	}
 	.debug{
 		background-color: aqua;
-		display: none;
+		display: solid;
 	}
 	.letter{
 		font-size: 30px;
