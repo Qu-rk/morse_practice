@@ -9,6 +9,20 @@
 	let language = "English";
 	let correction = 1;
 
+	function detectMobileDevice(agent) {
+  		const mobileRegex = [
+    		/Android/i,
+    		/iPhone/i,
+    		/iPad/i,
+    		/iPod/i,
+    		/BlackBerry/i,
+    		/Windows Phone/i
+  		]
+		return mobileRegex.some(mobile => agent.match(mobile))
+	}
+
+	const isMobile = detectMobileDevice(window.navigator.userAgent)
+
 	/**
 	 * object나 array의 동등비교 해주는 함수
 	 * @returns boolean값
@@ -121,9 +135,16 @@
 
 	<h1 class="title">Morse Practice</h1>
 
-	<div on:mousedown={downBtn} on:mouseup={upBtn} on:touchend={upBtn} class="button" id="button">
+	{#if isMobile == true}
+		<div on:touchstart={downBtn} on:touchend={upBtn} class="button" id="button">
+			<h1 class="clickText">Click!</h1>
+		</div>
+	{/if}
+	{#if isMobile == false}
+	<div on:mousedown={downBtn} on:mouseup={upBtn} class="button" id="button">
 		<h1 class="clickText">Click!</h1>
 	</div>
+	{/if}
 	<div class="letters">
 		<div class="textTextBox">
 			<p class="textText">TEXT</p>
@@ -210,6 +231,7 @@
 		user-select: none;
 		cursor: pointer;
 		background-color: white;
+		-webkit-tap-highlight-color : transparent !important;
 	}
 	.clickText{
 		position: relative;
